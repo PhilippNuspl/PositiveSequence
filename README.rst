@@ -58,7 +58,7 @@ References
     a P-finite sequence is positive? In: Proceedings of 
     ISSAC'10, pp. 195–202. 2010. 
 
-.. [PN22] Philipp Nuspl, Veronika Pillwein: A comparison of algorithms for proving 
+.. [NP22] Philipp Nuspl, Veronika Pillwein: A comparison of algorithms for proving 
    positivity of linearly recurrent sequences. Submitted. 2022
 
 .. [OW14] Joël Ouaknine and James Worrell. Positivity problems for low-order linear 
