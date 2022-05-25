@@ -1,0 +1,1866 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     80897,       1858]
+NotebookOptionsPosition[     74410,       1737]
+NotebookOutlinePosition[     74896,       1755]
+CellTagsIndexPosition[     74853,       1752]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Demo: Inequalities of C- and D-finite Sequences", "Chapter",
+ CellChangeTimes->{{3.858395587320472*^9, 3.85839559726714*^9}, {
+  3.862372612027298*^9, 
+  3.86237262007136*^9}},ExpressionUUID->"fb4f3eeb-bfc7-4352-87b4-\
+be5b6e46d020"],
+
+Cell["\<\
+This is a short demo showing the methods available in the package.\
+\>", "Text",
+ CellChangeTimes->{{3.858395609433565*^9, 
+  3.858395631827808*^9}},ExpressionUUID->"d283867d-8447-4b35-9709-\
+12ceec77af07"],
+
+Cell[CellGroupData[{
+
+Cell["Loading the package", "Subsection",
+ CellChangeTimes->{{3.858395642058185*^9, 
+  3.8583956439739027`*^9}},ExpressionUUID->"ff1596f4-cdca-47e0-920f-\
+d869d4bcd0df"],
+
+Cell["\<\
+If the GeneratingFunctions package is already installed and the file \
+PositiveSequence.m is in the same directory as this worksheet, the package \
+can be loaded as:\
+\>", "Text",
+ CellChangeTimes->{{3.85839566707827*^9, 3.858395692374016*^9}, {
+  3.8602102777734833`*^9, 3.8602103163124228`*^9}, {3.8602103591654663`*^9, 
+  3.860210360435007*^9}, {3.8610744442947083`*^9, 3.861074466649982*^9}, {
+  3.862279631146304*^9, 3.8622798411994457`*^9}, {3.862281234100359*^9, 
+  3.862281236449904*^9}, {3.8624530926120443`*^9, 
+  3.86245311938796*^9}},ExpressionUUID->"d80ae13e-a83e-4a21-84c5-\
+f6782977eab1"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"<<", "RISC`GeneratingFunctions`"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"<<", "PositiveSequence`"}], ";"}]}], "Input",
+ CellChangeTimes->{
+  3.8583957179086647`*^9, 3.860210449792193*^9, 3.861074474802693*^9, {
+   3.862370793575485*^9, 3.8623707959116173`*^9}, {3.862453128183529*^9, 
+   3.862453143831616*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"03afb100-6059-4fe4-b7d3-2eff38f62db0"],
+
+Cell["\<\
+Package GeneratingFunctions version 0.8 written by Christian Mallinger
+Copyright Research Institute for Symbolic Computation (RISC),
+Johannes Kepler University, Linz, Austria\
+\>", "Text",
+ CellFrame->True,
+ GeneratedCell->True,
+ CellAutoOverwrite->True,
+ CellChangeTimes->{3.862453297914399*^9},
+ ShowAutoSpellCheck->False,
+ FontColor->RGBColor[0, 0, 0],
+ Background->RGBColor[
+  0.796887, 0.789075, 
+   0.871107],ExpressionUUID->"64097998-3e7c-458b-866d-7230e80e732a"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Sequences", "Section",
+ CellChangeTimes->{{3.858395729338161*^9, 3.8583957302742157`*^9}, {
+  3.8599484288989162`*^9, 
+  3.859948429924596*^9}},ExpressionUUID->"cb365a78-8ca9-44e9-a98d-\
+906050da0fb9"],
+
+Cell[TextData[{
+ "The package assumes that a C-finite sequence c defined by a recurrence \n\t\
+a0*c(n)+a1*c(n+1)+...+ar*c(n+r) = 0\nand initial values c(0),...,c(r-1) is \
+given in the syntax ",
+ StyleBox["RE[{{0,a0,...,ar},{c(0),...,c(r-1)}},c[n]]",
+  FontWeight->"Bold"],
+ " where the initial zero in the coefficient list of the recurrence \
+represents the zero in the (here) homogeneous recurrence. The \
+GeneratingFunctions package provides methods to construct such a \
+representation:"
+}], "Text",
+ CellChangeTimes->{{3.858395741758012*^9, 3.8583959289383698`*^9}, 
+   3.8583960636819963`*^9},ExpressionUUID->"32ef003e-8e28-4335-907d-\
+1148fe62f346"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"fib", "=", 
+  RowBox[{"DefineS", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"c", "[", 
+        RowBox[{"n", "+", "2"}], "]"}], "\[Equal]", 
+       RowBox[{
+        RowBox[{"c", "[", 
+         RowBox[{"n", "+", "1"}], "]"}], "+", 
+        RowBox[{"c", "[", "n", "]"}]}]}], ",", 
+      RowBox[{
+       RowBox[{"c", "[", "0", "]"}], "\[Equal]", "1"}], ",", 
+      RowBox[{
+       RowBox[{"c", "[", "1", "]"}], "\[Equal]", "1"}]}], "}"}], ",", 
+    RowBox[{"c", "[", "n", "]"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.858395986750105*^9, 3.8583960387899637`*^9}},
+ CellLabel->"In[7]:=",ExpressionUUID->"2d36cad7-b9bf-4270-b1cc-4e87ffd3f027"],
+
+Cell[BoxData[
+ RowBox[{"RE", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0", ",", 
+       RowBox[{"-", "1"}], ",", 
+       RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "1"}], "}"}]}], "}"}], ",", 
+   RowBox[{"c", "[", "n", "]"}]}], "]"}]], "Output",
+ CellChangeTimes->{{3.858396024789103*^9, 3.858396039121168*^9}, 
+   3.858396866645852*^9, 3.858920843488104*^9, {3.8589249197076187`*^9, 
+   3.8589249444580173`*^9}, 3.858924989688201*^9, 3.858925432788987*^9, 
+   3.8589254882668552`*^9, 3.859217319126873*^9, 3.859948432384657*^9, 
+   3.860127248852255*^9, 3.8602105217387037`*^9, 3.860212113478156*^9, 
+   3.86109015197758*^9, 3.8610912083849907`*^9, 3.8610913876223717`*^9, 
+   3.862281000776287*^9, 3.86228132033886*^9, 3.862370769010071*^9, 
+   3.8623709044735518`*^9, 3.862372377154716*^9, 3.862378819277958*^9, 
+   3.862453147902218*^9},
+ CellLabel->"Out[7]=",ExpressionUUID->"20894e14-6ef7-40a9-b4ea-6871b7ca1f69"]
+}, Open  ]],
+
+Cell["\<\
+For convenience, the PositiveSequence package also provides a method to \
+construct a C-finite sequence from a symbolic expression using Guessing:\
+\>", "Text",
+ CellChangeTimes->{{3.8583960696820927`*^9, 3.858396115990287*^9}, {
+  3.860210530126227*^9, 
+  3.860210530275461*^9}},ExpressionUUID->"65850d0e-3918-4fc9-8fba-\
+5c81c512d931"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"c2", "=", 
+  RowBox[{"SequenceFromExpression", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"2", "^", "n"}], "+", 
+     RowBox[{"3", "^", "n"}], "-", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"-", "1"}], ")"}], "^", "n"}]}], ",", 
+    RowBox[{"c", "[", "n", "]"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.858396129826458*^9, 3.858396154928235*^9}, {
+  3.862370941881762*^9, 3.8623709473629303`*^9}},
+ CellLabel->"In[8]:=",ExpressionUUID->"2789cf02-4309-41ed-b7a2-12ae67353e19"],
+
+Cell[BoxData[
+ RowBox[{"RE", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0", ",", "6", ",", "1", ",", 
+       RowBox[{"-", "4"}], ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "6", ",", "12"}], "}"}]}], "}"}], ",", 
+   RowBox[{"c", "[", "n", "]"}]}], "]"}]], "Output",
+ CellChangeTimes->{
+  3.858396156816382*^9, 3.85839686668322*^9, 3.858920843550337*^9, {
+   3.858924919749023*^9, 3.858924944493532*^9}, 3.858924989731206*^9, 
+   3.858925432831427*^9, 3.858925488301795*^9, 3.859217319187422*^9, 
+   3.859948433524262*^9, 3.8601272520087748`*^9, 3.860210524192872*^9, 
+   3.860212113534815*^9, 3.86109015202127*^9, 3.861091208420458*^9, 
+   3.8610913876621447`*^9, 3.8622810034128036`*^9, 3.862281325912901*^9, 
+   3.862370770382763*^9, 3.8623709057517147`*^9, 3.8623710187509527`*^9, 
+   3.862372378597259*^9, 3.86237882079303*^9, 3.862453150300725*^9},
+ CellLabel->"Out[8]=",ExpressionUUID->"4cd4346c-e49a-4089-b40d-23fc9fa72796"]
+}, Open  ]],
+
+Cell["\<\
+Using the GeneratingFunctions package one can naturally compute closure \
+properties of those sequences or check equality.\
+\>", "Text",
+ CellChangeTimes->{{3.8583961668770437`*^9, 3.858396192527581*^9}, {
+  3.858396229138575*^9, 
+  3.8583962313352737`*^9}},ExpressionUUID->"d62d92e1-e924-4752-8cb9-\
+166e0cadd86e"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Shift", "[", 
+  RowBox[{"fib", ",", "2"}], "]"}]], "Input",
+ CellChangeTimes->{{3.8583962190952387`*^9, 3.8583962231043673`*^9}},
+ CellLabel->"In[9]:=",ExpressionUUID->"f180e27d-a34f-416f-8927-69dfd3ae9a46"],
+
+Cell[BoxData[
+ RowBox[{"RE", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0", ",", 
+       RowBox[{"-", "1"}], ",", 
+       RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", "3"}], "}"}]}], "}"}], ",", 
+   RowBox[{"c", "[", "n", "]"}]}], "]"}]], "Output",
+ CellChangeTimes->{
+  3.858396223576139*^9, 3.85839686669788*^9, 3.858920843570339*^9, {
+   3.858924919775098*^9, 3.858924944509716*^9}, 3.858924989748116*^9, 
+   3.858925432856265*^9, 3.8589254883205767`*^9, 3.859217319218046*^9, 
+   3.859948434455604*^9, 3.8601272539066896`*^9, 3.860210538032655*^9, 
+   3.8602121135594063`*^9, 3.8610901520324373`*^9, 3.8610912084317417`*^9, 
+   3.861091387674312*^9, 3.8622810065084143`*^9, 3.8622813291862793`*^9, 
+   3.862370771583658*^9, 3.86237090675657*^9, 3.862372379862515*^9, 
+   3.8623788219989347`*^9, 3.8624531514597588`*^9},
+ CellLabel->"Out[9]=",ExpressionUUID->"a2c73a97-8443-4a3e-8482-5301373f53e8"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"fib", "*", "c2"}]], "Input",
+ CellChangeTimes->{{3.858396194594392*^9, 3.858396195674013*^9}},
+ CellLabel->"In[10]:=",ExpressionUUID->"65c30811-f002-4255-a816-d5a342bc80fb"],
+
+Cell[BoxData[
+ RowBox[{"RE", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0", ",", 
+       RowBox[{"-", "36"}], ",", "6", ",", "73", ",", "28", ",", 
+       RowBox[{"-", "13"}], ",", 
+       RowBox[{"-", "4"}], ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "6", ",", "24", ",", "108", ",", "480", ",", "2208"}],
+       "}"}]}], "}"}], ",", 
+   RowBox[{"c", "[", "n", "]"}]}], "]"}]], "Output",
+ CellChangeTimes->{
+  3.858396195950205*^9, 3.8583968667139053`*^9, 3.85892084359378*^9, {
+   3.858924919799314*^9, 3.8589249445292473`*^9}, 3.858924989765977*^9, 
+   3.8589254328815813`*^9, 3.858925488339962*^9, 3.859217319250554*^9, 
+   3.8599484349360857`*^9, 3.860210538786737*^9, 3.860212113583604*^9, 
+   3.861090152050825*^9, 3.861091208441536*^9, 3.861091387686616*^9, 
+   3.862281009258318*^9, 3.862281335257284*^9, 3.8623707722190933`*^9, 
+   3.8623709073682632`*^9, 3.8623723808097887`*^9, 3.8623788225323133`*^9, 
+   3.8624531519483957`*^9},
+ CellLabel->"Out[10]=",ExpressionUUID->"5f2882a0-c491-4caa-9d48-e2cacc3fe36d"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"fib", "+", "c2"}]], "Input",
+ CellChangeTimes->{{3.858396198183671*^9, 3.8583961996187572`*^9}},
+ CellLabel->"In[11]:=",ExpressionUUID->"efa58b85-7cb5-4910-9497-4f4c0ea77735"],
+
+Cell[BoxData[
+ RowBox[{"RE", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0", ",", 
+       RowBox[{"-", "6"}], ",", 
+       RowBox[{"-", "7"}], ",", "9", ",", "4", ",", 
+       RowBox[{"-", "5"}], ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", "7", ",", "14", ",", "39", ",", "101"}], "}"}]}], 
+    "}"}], ",", 
+   RowBox[{"c", "[", "n", "]"}]}], "]"}]], "Output",
+ CellChangeTimes->{
+  3.858396199948484*^9, 3.8583968667287188`*^9, 3.858920843620676*^9, {
+   3.858924919826412*^9, 3.85892494455048*^9}, 3.858924989784981*^9, 
+   3.858925432906721*^9, 3.8589254883600883`*^9, 3.85921731928288*^9, 
+   3.8599484354706497`*^9, 3.8602105395097*^9, 3.860212113607283*^9, 
+   3.861090152071022*^9, 3.861091208454631*^9, 3.861091387697966*^9, 
+   3.862281011840808*^9, 3.862281336757874*^9, 3.862370772896028*^9, 
+   3.862370907994083*^9, 3.8623723814305*^9, 3.862378823144113*^9, 
+   3.862453152403541*^9},
+ CellLabel->"Out[11]=",ExpressionUUID->"2c7a2afb-8b6a-4634-866e-3fc6b520106c"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"fib", "\[Equal]", "c2"}]], "Input",
+ CellChangeTimes->{{3.858396201666884*^9, 3.858396235409843*^9}},
+ CellLabel->"In[12]:=",ExpressionUUID->"276460bd-adb8-4cd2-b10d-e15619379a6d"],
+
+Cell[BoxData["False"], "Output",
+ CellChangeTimes->{
+  3.858396235713345*^9, 3.8583968667441063`*^9, 3.858920843681031*^9, {
+   3.858924919851933*^9, 3.858924944569756*^9}, 3.858924989803112*^9, 
+   3.858925432929303*^9, 3.858925488379712*^9, 3.8592173193130083`*^9, 
+   3.859948435994226*^9, 3.860210540216209*^9, 3.860212113632568*^9, 
+   3.861090152084394*^9, 3.861091208466589*^9, 3.861091387710404*^9, 
+   3.8622810134380503`*^9, 3.862281338108094*^9, 3.8623707734571867`*^9, 
+   3.862370908489563*^9, 3.86237238225132*^9, 3.862378823690208*^9, 
+   3.862453152894862*^9},
+ CellLabel->"Out[12]=",ExpressionUUID->"918ed5cf-d763-488b-8073-437446989346"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Positivity", "Section",
+ CellChangeTimes->{{3.859948385798183*^9, 
+  3.8599483868164873`*^9}},ExpressionUUID->"4bfae1ad-592c-4374-a376-\
+db4bef563dbc"],
+
+Cell["\<\
+The main function to show positivity of a sequence is PositiveSequence[seq, \
+Strict -> True, Verbose -> False]. If strict is True, then strict positivity \
+is shown. If False, then non-negativity is shown. \
+\>", "Text",
+ CellChangeTimes->{{3.859948392362812*^9, 3.859948410175088*^9}, {
+  3.859948446789393*^9, 3.8599484714023943`*^9}, {3.8623837839962053`*^9, 
+  3.86238379330486*^9}},ExpressionUUID->"0b6043d8-c587-4dbc-8609-\
+8f46d3dc391d"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "PositiveSequence"}]], "Input",
+ CellChangeTimes->{{3.859948413216117*^9, 3.859948442441805*^9}, {
+  3.860127267929158*^9, 3.8601272700207977`*^9}, {3.8601273112838097`*^9, 
+  3.860127312882615*^9}},
+ CellLabel->"In[13]:=",ExpressionUUID->"6c9ae9ba-2171-405f-a499-22be885d38d7"],
+
+Cell[BoxData[
+ InterpretationBox[
+  StyleBox[
+   FrameBox[
+    DynamicModuleBox[{System`InformationDump`open$$ = False, 
+     System`InformationDump`mouseOver$$ = False}, 
+     PaneSelectorBox[{True->
+      TagBox[GridBox[{
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\" Symbol\"\>", "InformationTitleText",
+             StripOnInput->False,
+             BaseStyle -> None],
+            FrameMargins->{{4, 0}, {-1, 1}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           PaneBox[
+            
+            StyleBox["\<\"PositiveSequence[seq] uses a combination of \
+different algorithms to show positivity. If the sequence is D-finite, then \
+Algorithms 1 and 2 from [Kauers, Pillwein 2010] are used. If the sequence is \
+C-finite, it is checked whether Algorithms 1 and 2 from [Kauers, Pillwein \
+2010] yield a result in a short amount of time. If they do not, then the \
+sequence is decomposed into non-degenerate sequences and Algorithm C from \
+[Nuspl, Pillwein 2022] is used for each of these individual sequences. \
+Returns True if the sequence could be proven to be positive (i.e., every term \
+of the sequence is positive) and False if a negative term was found. \
+\\n\\nseq... a D-finite sequence as an RE[...] object \\n\\nOptions: \
+\\nStrict -> if True, positivity is checked, if False, non-negativity  is \
+checked (default: True). \\nVerbose -> displays information during the \
+execution of the algorithm (default: False)\"\>", "InformationUsageText",
+             StripOnInput->False,
+             LineSpacing->{1.5, 1.5, 3.}],
+            FrameMargins->{{10, 10}, {8, 10}}],
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False]},
+         {
+          PaneBox[GridBox[{
+             {
+              
+              DynamicModuleBox[{System`InformationDump`open$$ = {
+               False, False, False, False, False, False, False, False, False, 
+                False, False, False}}, 
+               StyleBox[GridBox[{
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Definitions\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"Definitions\"",
+                    TooltipStyle->"TextStyling"],
+                    Annotation[#, "Definitions", "Tooltip"]& ], GridBox[{
+                    {
+                    RowBox[{
+                    RowBox[{"PositiveSequence", "[", 
+                    RowBox[{
+                    "PositiveSequence`Private`seq_", ",", 
+                    "PositiveSequence`Private`opts___"}], "]"}], ":=", 
+                    RowBox[{"Module", "[", 
+                    RowBox[{
+                    RowBox[{"{", "PositiveSequence`Private`time", "}"}], ",", 
+                    
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "PositiveSequence`Private`strict", ",", 
+                    "PositiveSequence`Private`verbose"}], "}"}], "=", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"Strict", ",", "Verbose"}], "}"}], "/.", 
+                    "\[VeryThinSpace]", 
+                    RowBox[{"{", "PositiveSequence`Private`opts", "}"}]}], "/.",
+                     "\[VeryThinSpace]", 
+                    RowBox[{"Options", "[", "PositiveSequence", "]"}]}]}], 
+                    ";", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"!", 
+                    RowBox[{
+                    "PositiveSequence`Private`IsCFinite", "[", 
+                    "PositiveSequence`Private`seq", "]"}]}], ",", 
+                    RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{"PositiveSequence`Private`verbose", ",", 
+                    RowBox[{
+                    RowBox[{
+                    "Print", "[", "\<\"Sequence is D-finite\"\>", "]"}], 
+                    ";"}]}], "]"}], ";", 
+                    RowBox[{"PositiveSequence`Private`time", "=", "1"}], ";", 
+                    
+                    RowBox[{"While", "[", 
+                    RowBox[{"True", ",", 
+                    RowBox[{
+                    RowBox[{"TimeConstrained", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{"PositiveSequence`Private`verbose", ",", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    
+                    RowBox[{"\<\"Try Algorithm 1 with time limit \"\>", ",", 
+                    "PositiveSequence`Private`time", 
+                    ",", "\<\" seconds\"\>"}], "]"}], ";"}]}], "]"}], ";", 
+                    RowBox[{"Return", "[", 
+                    RowBox[{
+                    RowBox[{"KPAlgorithm1", "[", 
+                    RowBox[{"PositiveSequence`Private`seq", ",", 
+                    RowBox[{
+                    "Strict", "\[Rule]", "PositiveSequence`Private`strict"}], 
+                    ",", 
+                    RowBox[{"Eventual", "\[Rule]", "False"}], ",", 
+                    RowBox[{
+                    "Verbose", "\[Rule]", 
+                    "PositiveSequence`Private`verbose"}]}], "]"}], ",", 
+                    "Module"}], "]"}]}], ",", 
+                    "PositiveSequence`Private`time"}], "]"}], ";", 
+                    RowBox[{"TimeConstrained", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{"PositiveSequence`Private`verbose", ",", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    
+                    RowBox[{"\<\"Try Algorithm 2 with time limit \"\>", ",", 
+                    "PositiveSequence`Private`time", 
+                    ",", "\<\" seconds\"\>"}], "]"}], ";"}]}], "]"}], ";", 
+                    RowBox[{"Return", "[", 
+                    RowBox[{
+                    RowBox[{"KPAlgorithm2", "[", 
+                    RowBox[{"PositiveSequence`Private`seq", ",", 
+                    RowBox[{
+                    "Strict", "\[Rule]", "PositiveSequence`Private`strict"}], 
+                    ",", 
+                    RowBox[{"Eventual", "\[Rule]", "False"}], ",", 
+                    RowBox[{
+                    "Verbose", "\[Rule]", 
+                    "PositiveSequence`Private`verbose"}]}], "]"}], ",", 
+                    "Module"}], "]"}]}], ",", 
+                    "PositiveSequence`Private`time"}], "]"}], ";", 
+                    RowBox[{"PositiveSequence`Private`time", "=", 
+                    RowBox[{"5", " ", "PositiveSequence`Private`time"}]}], 
+                    ";"}]}], "]"}], ";"}]}], "]"}], ";", 
+                    RowBox[{"TimeConstrained", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{"PositiveSequence`Private`verbose", ",", 
+                    RowBox[{
+                    RowBox[{"Print", "[", "\<\"Try Algorithm 1\"\>", "]"}], 
+                    ";"}]}], "]"}], ";", 
+                    RowBox[{"Return", "[", 
+                    RowBox[{
+                    RowBox[{"KPAlgorithm1", "[", 
+                    RowBox[{"PositiveSequence`Private`seq", ",", 
+                    RowBox[{
+                    "Strict", "\[Rule]", "PositiveSequence`Private`strict"}], 
+                    ",", 
+                    RowBox[{"Eventual", "\[Rule]", "False"}], ",", 
+                    RowBox[{
+                    "Verbose", "\[Rule]", 
+                    "PositiveSequence`Private`verbose"}]}], "]"}], ",", 
+                    "Module"}], "]"}]}], ",", "1"}], "]"}], ";", 
+                    RowBox[{"TimeConstrained", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{"PositiveSequence`Private`verbose", ",", 
+                    RowBox[{
+                    RowBox[{"Print", "[", "\<\"Try Algorithm 2\"\>", "]"}], 
+                    ";"}]}], "]"}], ";", 
+                    RowBox[{"Return", "[", 
+                    RowBox[{
+                    RowBox[{"KPAlgorithm2", "[", 
+                    RowBox[{"PositiveSequence`Private`seq", ",", 
+                    RowBox[{
+                    "Strict", "\[Rule]", "PositiveSequence`Private`strict"}], 
+                    ",", 
+                    RowBox[{"Eventual", "\[Rule]", "False"}], ",", 
+                    RowBox[{
+                    "Verbose", "\[Rule]", 
+                    "PositiveSequence`Private`verbose"}]}], "]"}], ",", 
+                    "Module"}], "]"}]}], ",", "1"}], "]"}], ";", 
+                    RowBox[{"If", "[", 
+                    RowBox[{"PositiveSequence`Private`verbose", ",", 
+                    RowBox[{
+                    RowBox[{
+                    "Print", 
+                    "[", "\<\"Try decomposition and classical algorithm\"\>", 
+                    "]"}], ";"}]}], "]"}], ";", 
+                    RowBox[{"Return", "[", 
+                    RowBox[{
+                    RowBox[{"AlgorithmClassic", "[", 
+                    RowBox[{"PositiveSequence`Private`seq", ",", 
+                    RowBox[{
+                    "Strict", "\[Rule]", "PositiveSequence`Private`strict"}], 
+                    ",", 
+                    RowBox[{
+                    "Verbose", "\[Rule]", 
+                    "PositiveSequence`Private`verbose"}]}], "]"}], ",", 
+                    "Module"}], "]"}], ";"}]}], "]"}]}]}
+                    },
+                    DefaultBaseStyle->"Column",
+                    GridBoxAlignment->{"Columns" -> {{Left}}},
+                    
+                    GridBoxItemSize->{
+                    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]},
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Options\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"Options\"",
+                    TooltipStyle->"TextStyling"],
+                    Annotation[#, "Options", "Tooltip"]& ], 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Strict", "\[Rule]", "True"}], ",", 
+                    RowBox[{"Verbose", "\[Rule]", "False"}]}], "}"}]},
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Full Name\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"FullName\"",
+                    TooltipStyle->"TextStyling"],
+                    
+                    Annotation[#, "FullName", 
+                    "Tooltip"]& ], "\<\"PositiveSequence`PositiveSequence\"\>"}
+                 },
+                 AutoDelete->False,
+                 GridBoxAlignment->{"Columns" -> {Right, Left}},
+                 GridBoxDividers->None,
+                 GridBoxItemSize->{"Columns" -> {Automatic, Automatic}},
+                 GridBoxSpacings->{"Columns" -> {
+                    Offset[0.27999999999999997`], {
+                    Offset[0.5599999999999999]}, 
+                    Offset[0.27999999999999997`]}, "Rows" -> {
+                    Offset[0.2], {
+                    Offset[0.8]}, 
+                    Offset[0.2]}}], "DialogStyle",
+                StripOnInput->False],
+               DynamicModuleValues:>{}]}
+            },
+            DefaultBaseStyle->"Column",
+            GridBoxAlignment->{"Columns" -> {{Left}}},
+            GridBoxDividers->{"Columns" -> {{False}}, "Rows" -> {{False}}},
+            
+            GridBoxItemSize->{
+             "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+            GridBoxSpacings->{"Columns" -> {
+                Offset[0.27999999999999997`], {
+                 Offset[0.5599999999999999]}, 
+                Offset[0.27999999999999997`]}, "Rows" -> {
+                Offset[0.2], {
+                 Offset[3.6]}, 
+                Offset[0.2]}}],
+           FrameMargins->6], ""},
+         {
+          ItemBox[
+           TagBox[
+            ButtonBox[
+             PaneSelectorBox[{False->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "UpPointerOpener"]], True->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "UpPointerOpenerHot"]]}, Dynamic[
+              System`InformationDump`mouseOver$$]],
+             Alignment->Left,
+             Appearance->{"Default" -> None},
+             
+             ButtonFunction:>FEPrivate`Set[
+              System`InformationDump`open$$, False],
+             Evaluator->Automatic,
+             FrameMargins->{{9, 0}, {0, 0}},
+             ImageMargins->0,
+             ImageSize->Full,
+             Method->"Preemptive"],
+            
+            EventHandlerTag[{
+             "MouseEntered" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, True], 
+              "MouseExited" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, False], 
+              Method -> "Preemptive", PassEventsDown -> Automatic, 
+              PassEventsUp -> True}]],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], "\[SpanFromLeft]"}
+        },
+        AutoDelete->False,
+        FrameStyle->Directive[
+          GrayLevel[0.8], 
+          Thickness[Tiny]],
+        GridBoxAlignment->{"Columns" -> {Left, Right}, "Rows" -> {{Center}}},
+        GridBoxDividers->{
+         "Columns" -> {{None}}, "Rows" -> {False, {True}, False}},
+        GridBoxItemSize->{
+         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+       "Grid"], False->
+      TagBox[GridBox[{
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\" Symbol\"\>", "InformationTitleText",
+             StripOnInput->False],
+            FrameMargins->{{4, 0}, {-1, 1}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           PaneBox[
+            
+            StyleBox["\<\"PositiveSequence[seq] uses a combination of \
+different algorithms to show positivity. If the sequence is D-finite, then \
+Algorithms 1 and 2 from [Kauers, Pillwein 2010] are used. If the sequence is \
+C-finite, it is checked whether Algorithms 1 and 2 from [Kauers, Pillwein \
+2010] yield a result in a short amount of time. If they do not, then the \
+sequence is decomposed into non-degenerate sequences and Algorithm C from \
+[Nuspl, Pillwein 2022] is used for each of these individual sequences. \
+Returns True if the sequence could be proven to be positive (i.e., every term \
+of the sequence is positive) and False if a negative term was found. \
+\\n\\nseq... a D-finite sequence as an RE[...] object \\n\\nOptions: \
+\\nStrict -> if True, positivity is checked, if False, non-negativity  is \
+checked (default: True). \\nVerbose -> displays information during the \
+execution of the algorithm (default: False)\"\>", "InformationUsageText",
+             StripOnInput->False,
+             LineSpacing->{1.5, 1.5, 3.}],
+            FrameMargins->{{10, 10}, {8, 10}}],
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           TagBox[
+            ButtonBox[
+             PaneSelectorBox[{False->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "DownPointerOpener"],
+               ImageSizeCache->{10., {3., 7.}}], True->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "DownPointerOpenerHot"],
+               ImageSizeCache->{10., {3., 7.}}]}, Dynamic[
+              System`InformationDump`mouseOver$$]],
+             Alignment->Left,
+             Appearance->{"Default" -> None},
+             
+             ButtonFunction:>FEPrivate`Set[
+              System`InformationDump`open$$, True],
+             Evaluator->Automatic,
+             FrameMargins->{{9, 0}, {0, 0}},
+             ImageMargins->0,
+             ImageSize->Full,
+             Method->"Preemptive"],
+            
+            EventHandlerTag[{
+             "MouseEntered" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, True], 
+              "MouseExited" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, False], 
+              Method -> "Preemptive", PassEventsDown -> Automatic, 
+              PassEventsUp -> True}]],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], "\[SpanFromLeft]"}
+        },
+        AutoDelete->False,
+        FrameStyle->Directive[
+          GrayLevel[0.8], 
+          Thickness[Tiny]],
+        GridBoxAlignment->{"Columns" -> {Left, Right}, "Rows" -> {{Center}}},
+        GridBoxDividers->{
+         "Columns" -> {{None}}, "Rows" -> {False, {True}, False}},
+        GridBoxItemSize->{
+         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+       "Grid"]}, Dynamic[System`InformationDump`open$$],
+      BaselinePosition->Baseline,
+      FrameMargins->0,
+      ImageSize->Automatic],
+     DynamicModuleValues:>{}],
+    BaseStyle->"InformationGridFrame",
+    StripOnInput->False], "InformationGridPlain",
+   StripOnInput->False],
+  InformationData[
+   Association[
+   "ObjectType" -> "Symbol", "Usage" -> 
+    "PositiveSequence[seq] uses a combination of different algorithms to show \
+positivity. If the sequence is D-finite, then Algorithms 1 and 2 from \
+[Kauers, Pillwein 2010] are used. If the sequence is C-finite, it is checked \
+whether Algorithms 1 and 2 from [Kauers, Pillwein 2010] yield a result in a \
+short amount of time. If they do not, then the sequence is decomposed into \
+non-degenerate sequences and Algorithm C from [Nuspl, Pillwein 2022] is used \
+for each of these individual sequences. Returns True if the sequence could be \
+proven to be positive (i.e., every term of the sequence is positive) and \
+False if a negative term was found. \n\nseq... a D-finite sequence as an \
+RE[...] object \n\nOptions: \nStrict -> if True, positivity is checked, if \
+False, non-negativity  is checked (default: True). \nVerbose -> displays \
+information during the execution of the algorithm (default: False)", 
+    "Documentation" -> None, "OwnValues" -> None, "UpValues" -> None, 
+    "DownValues" -> 
+    Information`InformationValueForm[
+     DownValues, PositiveSequence`PositiveSequence, {
+      PositiveSequence`PositiveSequence[
+         Pattern[PositiveSequence`Private`seq, 
+          Blank[]], 
+         Pattern[PositiveSequence`Private`opts, 
+          BlankNullSequence[]]] :> 
+       Module[{PositiveSequence`Private`time}, {
+           PositiveSequence`Private`strict, PositiveSequence`Private`verbose} = 
+          ReplaceAll[
+            
+            ReplaceAll[{PositiveSequence`Strict, Verbose}, {
+             PositiveSequence`Private`opts}], 
+            Options[PositiveSequence`PositiveSequence]]; If[
+           Not[
+            PositiveSequence`Private`IsCFinite[PositiveSequence`Private`seq]],
+            If[PositiveSequence`Private`verbose, 
+             Print["Sequence is D-finite"]; Null]; 
+           PositiveSequence`Private`time = 1; 
+           While[True, 
+             TimeConstrained[
+              If[PositiveSequence`Private`verbose, 
+                 Print["Try Algorithm 1 with time limit ", 
+                   PositiveSequence`Private`time, " seconds"]; Null]; Return[
+                 PositiveSequence`KPAlgorithm1[
+                 PositiveSequence`Private`seq, PositiveSequence`Strict -> 
+                  PositiveSequence`Private`strict, PositiveSequence`Eventual -> 
+                  False, Verbose -> PositiveSequence`Private`verbose], 
+                 Module], PositiveSequence`Private`time]; 
+             TimeConstrained[
+              If[PositiveSequence`Private`verbose, 
+                 Print["Try Algorithm 2 with time limit ", 
+                   PositiveSequence`Private`time, " seconds"]; Null]; Return[
+                 PositiveSequence`KPAlgorithm2[
+                 PositiveSequence`Private`seq, PositiveSequence`Strict -> 
+                  PositiveSequence`Private`strict, PositiveSequence`Eventual -> 
+                  False, Verbose -> PositiveSequence`Private`verbose], 
+                 Module], PositiveSequence`Private`time]; 
+             PositiveSequence`Private`time = 5 PositiveSequence`Private`time; 
+             Null]; Null]; 
+         TimeConstrained[
+          If[PositiveSequence`Private`verbose, Print["Try Algorithm 1"]; 
+             Null]; Return[
+             PositiveSequence`KPAlgorithm1[
+             PositiveSequence`Private`seq, PositiveSequence`Strict -> 
+              PositiveSequence`Private`strict, PositiveSequence`Eventual -> 
+              False, Verbose -> PositiveSequence`Private`verbose], Module], 
+           1]; TimeConstrained[
+          If[PositiveSequence`Private`verbose, Print["Try Algorithm 2"]; 
+             Null]; Return[
+             PositiveSequence`KPAlgorithm2[
+             PositiveSequence`Private`seq, PositiveSequence`Strict -> 
+              PositiveSequence`Private`strict, PositiveSequence`Eventual -> 
+              False, Verbose -> PositiveSequence`Private`verbose], Module], 
+           1]; If[PositiveSequence`Private`verbose, 
+           Print["Try decomposition and classical algorithm"]; Null]; Return[
+           PositiveSequence`AlgorithmClassic[
+           PositiveSequence`Private`seq, PositiveSequence`Strict -> 
+            PositiveSequence`Private`strict, Verbose -> 
+            PositiveSequence`Private`verbose], Module]; Null]}], "SubValues" -> 
+    None, "DefaultValues" -> None, "NValues" -> None, "FormatValues" -> None, 
+    "Options" -> {PositiveSequence`Strict -> True, Verbose -> False}, 
+    "Attributes" -> {}, "FullName" -> "PositiveSequence`PositiveSequence"], 
+   False]]], "Output",
+ CellChangeTimes->{{3.8599484199895897`*^9, 3.859948443005453*^9}, 
+   3.860127257933247*^9, {3.860127309862516*^9, 3.8601273167039413`*^9}, 
+   3.8602105496823263`*^9, 3.86021211381281*^9, 3.86109015226422*^9, 
+   3.861091208596834*^9, 3.861091387841181*^9, 3.8622802077234077`*^9, 
+   3.86228101673418*^9, 3.862281341292798*^9, 3.862370775987877*^9, 
+   3.862370910817429*^9, 3.8623723844482107`*^9, 3.862378825687436*^9, 
+   3.862453154932433*^9},
+ CellLabel->"Out[13]=",ExpressionUUID->"1ab18561-8068-4651-9326-be0dfa33e154"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"PositiveSequence", "[", "fib", "]"}]], "Input",
+ CellChangeTimes->{{3.859948810277424*^9, 3.8599488166153593`*^9}},
+ CellLabel->"In[14]:=",ExpressionUUID->"33df8952-6c7e-41ae-a957-8e5279b59ab3"],
+
+Cell[BoxData["True"], "Output",
+ CellChangeTimes->{{3.8599488140537043`*^9, 3.859948817006196*^9}, 
+   3.860127260050549*^9, 3.8602105585046053`*^9, 3.860212113843369*^9, 
+   3.8610901524510612`*^9, 3.861091208617794*^9, 3.8610913878564167`*^9, 
+   3.862280985949086*^9, 3.8622810219033337`*^9, 3.8622813434131203`*^9, 
+   3.8623709169108133`*^9, 3.862372385715715*^9, 3.8623788272889433`*^9, 
+   3.862453156562995*^9},
+ CellLabel->"Out[14]=",ExpressionUUID->"5806331e-3c89-4cd2-813b-1ec1386d6ef8"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"PositiveSequence", "[", 
+  RowBox[{"Shift", "[", 
+   RowBox[{"fib", ",", 
+    RowBox[{"-", "1"}]}], "]"}], "]"}]], "Input",
+ CellChangeTimes->{{3.8599488212731037`*^9, 3.8599488276200037`*^9}},
+ CellLabel->"In[15]:=",ExpressionUUID->"508291a3-f5e6-468f-ac3b-5d9b661d3ee4"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "RE2L", "negative", 
+   "\"Warning. The recurrence is extended to (some) negative\\nintegers.\"", 
+   2, 15, 1, 26050346698431742135, "Local", "RISC`GeneratingFunctions`RE2L"},
+  "MessageTemplate2"]], "Message", "MSG",
+ CellChangeTimes->{3.859948829236672*^9, 3.860210559279419*^9, 
+  3.860212113871409*^9, 3.861090152543949*^9, 3.8610912086307173`*^9, 
+  3.8610913878704157`*^9, 3.8622810233676558`*^9, 3.862281345142271*^9, 
+  3.862370917735949*^9, 3.86237238629578*^9, 3.8623788279560623`*^9, 
+  3.86245315734615*^9},
+ CellLabel->
+  "During evaluation of \
+In[15]:=",ExpressionUUID->"b3b692ae-1afa-4ce3-897e-b3db16000d38"],
+
+Cell[BoxData["False"], "Output",
+ CellChangeTimes->{3.859948829282591*^9, 3.860210559286397*^9, 
+  3.860212113970921*^9, 3.86109015261936*^9, 3.861091208636527*^9, 
+  3.861091387876068*^9, 3.862281023376103*^9, 3.8622813451492653`*^9, 
+  3.862370917739695*^9, 3.862372386300152*^9, 3.862378828018546*^9, 
+  3.862453157351507*^9},
+ CellLabel->"Out[15]=",ExpressionUUID->"a74ba84b-2165-4d24-9565-442eb7b56f14"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"PositiveSequence", "[", "c2", "]"}]], "Input",
+ CellChangeTimes->{{3.8599488433878927`*^9, 3.859948846296298*^9}},
+ CellLabel->"In[16]:=",ExpressionUUID->"6be89d18-249a-4e3b-b44f-0ef2b58dba75"],
+
+Cell[BoxData["True"], "Output",
+ CellChangeTimes->{3.859948847834783*^9, 3.860210563603787*^9, 
+  3.8602121152892227`*^9, 3.861090153848666*^9, 3.861091209857929*^9, 
+  3.861091389081952*^9, 3.862281034778871*^9, 3.862281349280838*^9, 
+  3.8623709273744926`*^9, 3.862372388336482*^9, 3.862378829795821*^9, 
+  3.862453159422699*^9},
+ CellLabel->"Out[16]=",ExpressionUUID->"d1859d31-229f-48ac-8a55-e6f7956005a7"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"RE2L", "[", 
+  RowBox[{
+   RowBox[{"c2", "-", "fib"}], ",", "10"}], "]"}]], "Input",
+ CellChangeTimes->{{3.8599488952507763`*^9, 3.859948900506085*^9}},
+ CellLabel->"In[17]:=",ExpressionUUID->"9c966791-d0a9-4540-830c-8f78d1dc4d7b"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+  "0", ",", "5", ",", "10", ",", "33", ",", "91", ",", "268", ",", "779", ",",
+    "2295", ",", "6782", ",", "20141", ",", "59983"}], "}"}]], "Output",
+ CellChangeTimes->{3.859948901071785*^9, 3.860210563671229*^9, 
+  3.8602121153715267`*^9, 3.8610901538947783`*^9, 3.8610912099099627`*^9, 
+  3.861091389133876*^9, 3.862281040061627*^9, 3.862281351327601*^9, 
+  3.862372389134843*^9, 3.862378829923477*^9, 3.862453159463717*^9},
+ CellLabel->"Out[17]=",ExpressionUUID->"c7c6eb64-01ad-487f-a466-20055e0367d6"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"PositiveSequence", "[", 
+  RowBox[{
+   RowBox[{"c2", "-", "fib"}], ",", 
+   RowBox[{"Strict", "->", "True"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.859948893120516*^9, 3.859948893494918*^9}, {
+  3.861090164789733*^9, 3.861090166822682*^9}},
+ CellLabel->"In[18]:=",ExpressionUUID->"31be2c7b-df8e-4fb1-825b-db5b31448e71"],
+
+Cell[BoxData["False"], "Output",
+ CellChangeTimes->{
+  3.8599488937282877`*^9, 3.860210564291326*^9, 3.860212115417955*^9, {
+   3.861090153922224*^9, 3.861090173402156*^9}, 3.861091209925816*^9, 
+   3.861091389150733*^9, 3.8622810415183764`*^9, 3.862281353237604*^9, 
+   3.862372389918808*^9, 3.8623788311613197`*^9, 3.862453159486651*^9},
+ CellLabel->"Out[18]=",ExpressionUUID->"64db40d9-ffd9-4429-adc9-292deee5780f"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"PositiveSequence", "[", 
+  RowBox[{
+   RowBox[{"c2", "-", "fib"}], ",", 
+   RowBox[{"Strict", "->", "False"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.859948865080531*^9, 3.859948885698132*^9}, {
+  3.8610901758821707`*^9, 3.861090177492648*^9}, {3.861091273425146*^9, 
+  3.8610912735512857`*^9}},
+ CellLabel->"In[19]:=",ExpressionUUID->"d7c90472-5faa-4814-b2f4-8b7047494805"],
+
+Cell[BoxData["True"], "Output",
+ CellChangeTimes->{{3.859948874160118*^9, 3.859948888118856*^9}, 
+   3.860210566653101*^9, 3.860212117496826*^9, {3.8610901539457827`*^9, 
+   3.861090177911477*^9}, 3.8610912099414663`*^9, 3.861091275740879*^9, 
+   3.861091391207946*^9, 3.8622810448509197`*^9, 3.862281357090732*^9, 
+   3.862372392758848*^9, 3.862378834706663*^9, 3.8624531620125313`*^9},
+ CellLabel->"Out[19]=",ExpressionUUID->"5a5cfc6c-38b8-40d9-a29e-ea87378fe0ab"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["D-finite sequences", "Section",
+ CellChangeTimes->{{3.859954849563636*^9, 
+  3.85995485147924*^9}},ExpressionUUID->"f6b32409-d304-459e-88d2-\
+a2e2495e9172"],
+
+Cell[TextData[{
+ "If the input to ",
+ StyleBox["PositiveSequence", "Program"],
+ " is a D-finite sequence, Algorithms 1 and 2 from [Kauers, Pillwein 2010] is \
+used to show positivity. Termination of these algorithms (in therefore of ",
+ StyleBox["PositiveSequence", "Program"],
+ ") is not guaranteed. The following are the examples from the paper. "
+}], "Text",
+ CellChangeTimes->{{3.859954937067087*^9, 3.8599549844454823`*^9}, {
+  3.8599556266257687`*^9, 
+  3.8599556577540903`*^9}},ExpressionUUID->"aa195b6a-da8d-4b02-bc55-\
+aeed9f9349e7"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"f1", "=", 
+   RowBox[{"RE", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", 
+         RowBox[{"-", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"2", "n"}], "+", "7"}], ")"}]}], ",", 
+         RowBox[{
+          RowBox[{"3", "n"}], "+", "20"}], ",", 
+         RowBox[{"-", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"5", "n"}], "+", "22"}], ")"}]}], ",", 
+         RowBox[{
+          RowBox[{"2", "n"}], "+", "13"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1", ",", "1"}], "}"}]}], "}"}], ",", 
+     RowBox[{"f", "[", "n", "]"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"PositiveSequence", "[", "f1", "]"}]}], "Input",
+ CellChangeTimes->{{3.859955366740099*^9, 3.859955413986846*^9}, {
+   3.859955464394507*^9, 3.859955465908581*^9}, {3.859955504515418*^9, 
+   3.859955504630364*^9}, {3.861090180943178*^9, 3.86109018482098*^9}, 
+   3.861091260698185*^9},
+ CellLabel->"In[20]:=",ExpressionUUID->"1a99648d-e97c-4002-8df4-7280c44491dc"],
+
+Cell[BoxData["True"], "Output",
+ CellChangeTimes->{
+  3.859955408987658*^9, 3.859955448328668*^9, 3.859955485611492*^9, 
+   3.85995552505229*^9, 3.8602105924582644`*^9, 3.860212126576524*^9, {
+   3.8610901607022943`*^9, 3.861090195805241*^9}, 3.861091216905148*^9, 
+   3.86109139809087*^9, 3.862281093067543*^9, 3.862281371376539*^9, 
+   3.862372401791163*^9, 3.862378843043857*^9, 3.862453170720812*^9},
+ CellLabel->"Out[21]=",ExpressionUUID->"31b974b6-dc27-4610-8b73-fde259d3ee9e"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"f2", "=", 
+   RowBox[{"RE", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", 
+         RowBox[{"-", 
+          RowBox[{"(", 
+           RowBox[{"n", "+", "2"}], ")"}]}], ",", 
+         RowBox[{
+          RowBox[{"5", "n"}], "+", "12"}], ",", 
+         RowBox[{"-", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"5", "n"}], "+", "13"}], ")"}]}], ",", 
+         RowBox[{"n", "+", "3"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", 
+         RowBox[{"1", "/", "4"}], ",", 
+         RowBox[{"1", "/", "10"}]}], "}"}]}], "}"}], ",", 
+     RowBox[{"f", "[", "n", "]"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"PositiveSequence", "[", "f2", "]"}]}], "Input",
+ CellChangeTimes->{{3.859955539110936*^9, 3.8599555864041557`*^9}, {
+   3.8602107885853453`*^9, 3.8602107919367113`*^9}, {3.860212110904181*^9, 
+   3.860212111031499*^9}, {3.861090191627701*^9, 3.861090192786565*^9}, 
+   3.8610912577514563`*^9},
+ CellLabel->"In[22]:=",ExpressionUUID->"df2803ae-be9e-4a9e-b63a-ebdfd5d1d305"],
+
+Cell[BoxData["True"], "Output",
+ CellChangeTimes->{3.859955589018808*^9, 3.859955767595251*^9, 
+  3.85996621142307*^9, 3.860210783828693*^9, 3.860210838198469*^9, 
+  3.860212136484173*^9, 3.8610901695365877`*^9, 3.861090205996977*^9, 
+  3.861091225718257*^9, 3.861091406888557*^9, 3.862281105172324*^9, 
+  3.86228138071465*^9, 3.86237241079316*^9, 3.862378851817577*^9, 
+  3.862453179523776*^9},
+ CellLabel->"Out[23]=",ExpressionUUID->"6f02e1be-965d-456f-9363-f112f238e0c5"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"f3", "=", 
+   RowBox[{"RE", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", 
+         RowBox[{
+          RowBox[{"3", "n"}], "-", "16"}], ",", 
+         RowBox[{"-", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"3", "n"}], "-", "17"}], ")"}]}]}], "}"}], ",", 
+       RowBox[{"{", "1", "}"}]}], "}"}], ",", 
+     RowBox[{"f", "[", "n", "]"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"PositiveSequence", "[", "f3", "]"}]}], "Input",
+ CellChangeTimes->{{3.859954890026256*^9, 3.8599549204326687`*^9}, {
+  3.859955444945199*^9, 3.859955445566134*^9}, {3.8599555338173733`*^9, 
+  3.859955533950411*^9}},
+ CellLabel->"In[24]:=",ExpressionUUID->"d601d2e0-3aa8-4249-8396-8a4908702385"],
+
+Cell[BoxData["True"], "Output",
+ CellChangeTimes->{3.859955538452773*^9, 3.860212137541325*^9, 
+  3.861090170571014*^9, 3.861090207026322*^9, 3.861091226750724*^9, 
+  3.861091407922182*^9, 3.8622811076630573`*^9, 3.862281381835157*^9, 
+  3.862372411830531*^9, 3.862378852846218*^9, 3.862453180556765*^9},
+ CellLabel->"Out[25]=",ExpressionUUID->"25b59bee-7747-4fc6-9db5-ebdea180f141"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"u", "=", 
+   RowBox[{"1", "/", "2"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"fRemark", "=", 
+   RowBox[{"RE", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", "u", ",", 
+         RowBox[{"-", 
+          RowBox[{"(", 
+           RowBox[{"u", "+", "1"}], ")"}]}], ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "2"}], "}"}]}], "}"}], ",", 
+     RowBox[{"f", "[", "n", "]"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"PositiveSequence", "[", "fRemark", "]"}]}], "Input",
+ CellChangeTimes->{{3.859954972450818*^9, 3.859955077078624*^9}},
+ CellLabel->"In[26]:=",ExpressionUUID->"cadee1a6-02af-40a8-8b35-3857d4dab331"],
+
+Cell[BoxData["True"], "Output",
+ CellChangeTimes->{{3.859955049922028*^9, 3.859955078614633*^9}, 
+   3.860212138596467*^9, 3.861090171599801*^9, 3.8610902084270906`*^9, 
+   3.861091227780854*^9, 3.8610914089521646`*^9, 3.8622811102475224`*^9, 
+   3.862281382912801*^9, 3.86237241286242*^9, 3.862378853874168*^9, 
+   3.8624531815862617`*^9},
+ CellLabel->"Out[28]=",ExpressionUUID->"c89bc318-64f1-4218-aed5-df730d962e25"]
+}, Open  ]],
+
+Cell["\<\
+The algorithm, as expected, does not terminate for Example 4 from the paper.\
+\>", "Text",
+ CellChangeTimes->{{3.859955313933577*^9, 3.8599553370856323`*^9}, {
+  3.860210607741127*^9, 
+  3.860210607818759*^9}},ExpressionUUID->"145089ec-6ea8-44de-aed2-\
+e7b3f752fd04"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"f4", "=", 
+   RowBox[{"RE", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"n", "+", "1"}], ")"}], 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"n", "+", "4"}], ")"}], "/", "2"}]}], ",", 
+         RowBox[{
+          RowBox[{"-", 
+           RowBox[{"(", 
+            RowBox[{"n", "+", "2"}], ")"}]}], 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"3", "n"}], "+", "11"}], ")"}], "/", "2"}]}], ",", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"n", "+", "3"}], ")"}], "^", "2"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", 
+         RowBox[{"1", "/", "4"}]}], "}"}]}], "}"}], ",", 
+     RowBox[{"f", "[", "n", "]"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"PositiveSequence", "[", 
+  RowBox[{"f4", ",", 
+   RowBox[{"Strict", "->", "False"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.859955093629928*^9, 3.859955176888533*^9}, {
+  3.859955257900035*^9, 3.859955258879578*^9}, {3.85995545005632*^9, 
+  3.859955451480797*^9}, {3.860213104172879*^9, 3.860213104995571*^9}, {
+  3.8602131434815893`*^9, 3.8602131678247337`*^9}, {3.8602132010596333`*^9, 
+  3.860213201211137*^9}, {3.861090212397889*^9, 3.861090214161838*^9}, {
+  3.861091266924967*^9, 3.861091267068577*^9}},
+ CellLabel->"In[29]:=",ExpressionUUID->"5ed02b79-29ea-4f38-b8f7-15f3d00ba857"],
+
+Cell[BoxData["$Aborted"], "Output",
+ CellChangeTimes->{{3.859955161775519*^9, 3.859955181095035*^9}, 
+   3.859955308241096*^9, 3.860212147141637*^9, 3.8602130731481743`*^9, 
+   3.8602131145931787`*^9, {3.860213204917819*^9, 3.8602132100956707`*^9}, 
+   3.861090172020912*^9, 3.861090218963913*^9, {3.861091254710332*^9, 
+   3.8610912713219223`*^9}, 3.86109141822819*^9, 3.862281124022744*^9, 
+   3.8622814099504538`*^9, 3.8623724279666443`*^9, 3.862378860155637*^9, 
+   3.862453192641777*^9},
+ CellLabel->"Out[30]=",ExpressionUUID->"0940b710-a0d6-4ab1-8515-0d8045f67912"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["Other algorithms", "Section"]], "Subsection",
+ CellChangeTimes->{{3.860215295349399*^9, 
+  3.860215302099907*^9}},ExpressionUUID->"4c9f750f-5c3f-4259-af3e-\
+71de276ad8ed"],
+
+Cell[TextData[{
+ "The algorithms KP",
+ StyleBox["Algorithm1", "Program"],
+ ", KP",
+ StyleBox["Algorithm2", "Program"],
+ ", ",
+ StyleBox["AlgorithmDominantRootCAD", "Program"],
+ ", ",
+ StyleBox["AlgorithmDominantRootClassic", "Program"],
+ ", ",
+ StyleBox["AlgorithmCAD", "Program"],
+ ", ",
+ StyleBox["AlgorithmClassic", "Program"],
+ " are implemented to show positivity of a C-finite sequence. The first two \
+also support D-finite sequences. Check their documentation for further \
+details, e.g.:"
+}], "Text",
+ CellChangeTimes->{{3.8599653469851503`*^9, 3.8599654404665623`*^9}, {
+  3.8602153124606543`*^9, 3.860215404412331*^9}, {3.862372436393794*^9, 
+  3.862372457039631*^9}, {3.862453195747798*^9, 
+  3.862453196715228*^9}},ExpressionUUID->"4462a8d4-9e6d-4542-9446-\
+1a6f82cd152f"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", 
+  StyleBox["KPAlgorithm1", "Program"]}]], "Input",
+ CellChangeTimes->{{3.860215405976726*^9, 3.8602154100994043`*^9}, {
+   3.8622814193636703`*^9, 3.862281425616151*^9}, 3.8623724618019943`*^9, {
+   3.862372572281275*^9, 3.862372573916316*^9}},
+ CellLabel->"In[31]:=",ExpressionUUID->"c248f2d6-75aa-4c02-b268-0d663797a9f3"],
+
+Cell[BoxData[
+ InterpretationBox[
+  StyleBox[
+   FrameBox[
+    DynamicModuleBox[{System`InformationDump`open$$ = False, 
+     System`InformationDump`mouseOver$$ = False}, 
+     PaneSelectorBox[{True->
+      TagBox[GridBox[{
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\" Symbol\"\>", "InformationTitleText",
+             StripOnInput->False,
+             BaseStyle -> None],
+            FrameMargins->{{4, 0}, {-1, 1}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           PaneBox[
+            
+            StyleBox["\<\"KPAlgorithm1[seq] uses Algorithm 1 from [Kauers, \
+Pillwein 2010] to check whether the sequence is positive. Returns True if the \
+sequence could be proven to be positive (i.e., every term of the sequence is \
+positive) and False if a negative term was found \\n\\nseq... a D-finite \
+sequence as an RE[...] object \\n\\nOptions: \\nStrict -> if True, positivity \
+is checked, if False, non-negativity  is checked (default: True). \\nEventual \
+-> if True, an index is returned from which on the sequence is guaranteed to \
+be positive/non-negative (default: False) \\nVerbose -> displays information \
+during the execution of the algorithm (default: False)\"\>", 
+             "InformationUsageText",
+             StripOnInput->False,
+             LineSpacing->{1.5, 1.5, 3.}],
+            FrameMargins->{{10, 10}, {8, 10}}],
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False]},
+         {
+          PaneBox[GridBox[{
+             {
+              
+              DynamicModuleBox[{System`InformationDump`open$$ = {
+               False, False, False, False, False, False, False, False, False, 
+                False, False, False}}, 
+               StyleBox[GridBox[{
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Definitions\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"Definitions\"",
+                    TooltipStyle->"TextStyling"],
+                    Annotation[#, "Definitions", "Tooltip"]& ], GridBox[{
+                    {
+                    RowBox[{
+                    RowBox[{"KPAlgorithm1", "[", 
+                    RowBox[{
+                    "PositiveSequence`Private`seq_", ",", 
+                    "PositiveSequence`Private`opts___"}], "]"}], ":=", 
+                    RowBox[{"Module", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"PositiveSequence`Private`n", "=", "0"}], ",", 
+                    RowBox[{"PositiveSequence`Private`n0", "=", "0"}], ",", 
+                    RowBox[{
+                    "PositiveSequence`Private`d", "=", 
+                    "PositiveSequence`Private`seq"}], ",", 
+                    RowBox[{"PositiveSequence`Private`r", "=", 
+                    RowBox[{
+                    "PositiveSequence`Private`GetOrder", "[", 
+                    "PositiveSequence`Private`seq", "]"}]}], ",", 
+                    "PositiveSequence`Private`val", ",", 
+                    "PositiveSequence`Private`cond"}], "}"}], ",", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "PositiveSequence`Private`strict", ",", 
+                    "PositiveSequence`Private`ev", ",", 
+                    "PositiveSequence`Private`verbose"}], "}"}], "=", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"Strict", ",", "Eventual", ",", "Verbose"}], 
+                    "}"}], "/.", "\[VeryThinSpace]", 
+                    RowBox[{"{", "PositiveSequence`Private`opts", "}"}]}], "/.",
+                     "\[VeryThinSpace]", 
+                    RowBox[{"Options", "[", "KPAlgorithm1", "]"}]}]}], ";", 
+                    RowBox[{"While", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "PositiveSequence`Private`n", "<", 
+                    "PositiveSequence`Private`r"}], "||", 
+                    RowBox[{
+                    RowBox[{"PositiveSequence`Private`CheckPhiAlgo1", "[", 
+                    RowBox[{
+                    "PositiveSequence`Private`d", ",", 
+                    "PositiveSequence`Private`n", ",", 
+                    "PositiveSequence`Private`strict"}], "]"}], "===", 
+                    "False"}]}], ",", 
+                    RowBox[{
+                    RowBox[{"PositiveSequence`Private`val", "=", 
+                    RowBox[{
+                    RowBox[{"RE2L", "[", 
+                    RowBox[{"PositiveSequence`Private`d", ",", 
+                    RowBox[{
+                    "PositiveSequence`Private`d", "\[LeftDoubleBracket]", "2",
+                     "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{"{", "PositiveSequence`Private`n", "}"}]}], "]"}],
+                     "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}],
+                     ";", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{"PositiveSequence`Private`strict", ",", 
+                    RowBox[{
+                    RowBox[{
+                    "RootReduce", "[", "PositiveSequence`Private`val", "]"}], 
+                    ">", "0"}], ",", 
+                    RowBox[{
+                    RowBox[{
+                    "RootReduce", "[", "PositiveSequence`Private`val", "]"}], 
+                    "\[GreaterEqual]", "0"}]}], "]"}], ",", 
+                    RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{"PositiveSequence`Private`verbose", ",", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    
+                    RowBox[{"\<\"n=\"\>", ",", "PositiveSequence`Private`n", 
+                    ",", "\<\", increase induction hypothesis\"\>"}], "]"}], 
+                    ";"}]}], "]"}], ";", 
+                    RowBox[{"PositiveSequence`Private`n", "=", 
+                    RowBox[{"PositiveSequence`Private`n", "+", "1"}]}]}], ",", 
+                    RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{"PositiveSequence`Private`verbose", ",", 
+                    RowBox[{
+                    RowBox[{
+                    "Print", 
+                    "[", "\<\"Negative term found, change sequence\"\>", 
+                    "]"}], ";"}]}], "]"}], ";", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"!", "PositiveSequence`Private`ev"}], ",", 
+                    RowBox[{"Return", "[", "False", "]"}]}], "]"}], ";", 
+                    RowBox[{"PositiveSequence`Private`n", "=", 
+                    RowBox[{"PositiveSequence`Private`n", "+", "1"}]}], ";", 
+                    RowBox[{"PositiveSequence`Private`n0", "=", 
+                    RowBox[{
+                    "PositiveSequence`Private`n0", "+", 
+                    "PositiveSequence`Private`n"}]}], ";", 
+                    RowBox[{"PositiveSequence`Private`d", "=", 
+                    RowBox[{"Shift", "[", 
+                    RowBox[{
+                    "PositiveSequence`Private`d", ",", 
+                    "PositiveSequence`Private`n"}], "]"}]}], ";", 
+                    RowBox[{"PositiveSequence`Private`n", "=", "0"}], ";"}]}],
+                     "]"}], ";"}]}], "]"}], ";", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"!", "PositiveSequence`Private`ev"}], ",", 
+                    RowBox[{
+                    RowBox[{"PositiveSequence`Private`cond", "=", 
+                    RowBox[{"If", "[", 
+                    RowBox[{"PositiveSequence`Private`strict", ",", 
+                    RowBox[{
+                    RowBox[{"Positive", "[", "#1", "]"}], "&"}], ",", 
+                    RowBox[{
+                    RowBox[{"NonNegative", "[", "#1", "]"}], "&"}]}], "]"}]}],
+                     ";", 
+                    RowBox[{"If", "[", 
+                    RowBox[{"PositiveSequence`Private`verbose", ",", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    
+                    RowBox[{"\<\"Check \"\>", ",", 
+                    "PositiveSequence`Private`n", 
+                    ",", "\<\" initial terms\"\>"}], "]"}], ";"}]}], "]"}], 
+                    ";", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"AllTrue", "[", 
+                    RowBox[{
+                    RowBox[{"RE2L", "[", 
+                    RowBox[{"PositiveSequence`Private`seq", ",", 
+                    RowBox[{
+                    "PositiveSequence`Private`seq", "\[LeftDoubleBracket]", 
+                    "2", "\[RightDoubleBracket]"}], ",", 
+                    "PositiveSequence`Private`n"}], "]"}], ",", 
+                    "PositiveSequence`Private`cond"}], "]"}], ",", 
+                    RowBox[{"Return", "[", "True", "]"}], ",", 
+                    RowBox[{"Return", "[", "False", "]"}]}], "]"}], ";"}]}], 
+                    "]"}], ";", 
+                    RowBox[{
+                    "Return", "[", "PositiveSequence`Private`n0", "]"}], 
+                    ";"}]}], "]"}]}]}
+                    },
+                    DefaultBaseStyle->"Column",
+                    GridBoxAlignment->{"Columns" -> {{Left}}},
+                    
+                    GridBoxItemSize->{
+                    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]},
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Options\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"Options\"",
+                    TooltipStyle->"TextStyling"],
+                    Annotation[#, "Options", "Tooltip"]& ], 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Strict", "\[Rule]", "True"}], ",", 
+                    RowBox[{"Eventual", "\[Rule]", "True"}], ",", 
+                    RowBox[{"Verbose", "\[Rule]", "False"}]}], "}"}]},
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Full Name\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"FullName\"",
+                    TooltipStyle->"TextStyling"],
+                    
+                    Annotation[#, "FullName", 
+                    "Tooltip"]& ], "\<\"PositiveSequence`KPAlgorithm1\"\>"}
+                 },
+                 AutoDelete->False,
+                 GridBoxAlignment->{"Columns" -> {Right, Left}},
+                 GridBoxDividers->None,
+                 GridBoxItemSize->{"Columns" -> {Automatic, Automatic}},
+                 GridBoxSpacings->{"Columns" -> {
+                    Offset[0.27999999999999997`], {
+                    Offset[0.5599999999999999]}, 
+                    Offset[0.27999999999999997`]}, "Rows" -> {
+                    Offset[0.2], {
+                    Offset[0.8]}, 
+                    Offset[0.2]}}], "DialogStyle",
+                StripOnInput->False],
+               DynamicModuleValues:>{}]}
+            },
+            DefaultBaseStyle->"Column",
+            GridBoxAlignment->{"Columns" -> {{Left}}},
+            GridBoxDividers->{"Columns" -> {{False}}, "Rows" -> {{False}}},
+            
+            GridBoxItemSize->{
+             "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+            GridBoxSpacings->{"Columns" -> {
+                Offset[0.27999999999999997`], {
+                 Offset[0.5599999999999999]}, 
+                Offset[0.27999999999999997`]}, "Rows" -> {
+                Offset[0.2], {
+                 Offset[3.6]}, 
+                Offset[0.2]}}],
+           FrameMargins->6], ""},
+         {
+          ItemBox[
+           TagBox[
+            ButtonBox[
+             PaneSelectorBox[{False->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "UpPointerOpener"]], True->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "UpPointerOpenerHot"]]}, Dynamic[
+              System`InformationDump`mouseOver$$]],
+             Alignment->Left,
+             Appearance->{"Default" -> None},
+             
+             ButtonFunction:>FEPrivate`Set[
+              System`InformationDump`open$$, False],
+             Evaluator->Automatic,
+             FrameMargins->{{9, 0}, {0, 0}},
+             ImageMargins->0,
+             ImageSize->Full,
+             Method->"Preemptive"],
+            
+            EventHandlerTag[{
+             "MouseEntered" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, True], 
+              "MouseExited" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, False], 
+              Method -> "Preemptive", PassEventsDown -> Automatic, 
+              PassEventsUp -> True}]],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], "\[SpanFromLeft]"}
+        },
+        AutoDelete->False,
+        FrameStyle->Directive[
+          GrayLevel[0.8], 
+          Thickness[Tiny]],
+        GridBoxAlignment->{"Columns" -> {Left, Right}, "Rows" -> {{Center}}},
+        GridBoxDividers->{
+         "Columns" -> {{None}}, "Rows" -> {False, {True}, False}},
+        GridBoxItemSize->{
+         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+       "Grid"], False->
+      TagBox[GridBox[{
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\" Symbol\"\>", "InformationTitleText",
+             StripOnInput->False],
+            FrameMargins->{{4, 0}, {-1, 1}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           PaneBox[
+            
+            StyleBox["\<\"KPAlgorithm1[seq] uses Algorithm 1 from [Kauers, \
+Pillwein 2010] to check whether the sequence is positive. Returns True if the \
+sequence could be proven to be positive (i.e., every term of the sequence is \
+positive) and False if a negative term was found \\n\\nseq... a D-finite \
+sequence as an RE[...] object \\n\\nOptions: \\nStrict -> if True, positivity \
+is checked, if False, non-negativity  is checked (default: True). \\nEventual \
+-> if True, an index is returned from which on the sequence is guaranteed to \
+be positive/non-negative (default: False) \\nVerbose -> displays information \
+during the execution of the algorithm (default: False)\"\>", 
+             "InformationUsageText",
+             StripOnInput->False,
+             LineSpacing->{1.5, 1.5, 3.}],
+            FrameMargins->{{10, 10}, {8, 10}}],
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           TagBox[
+            ButtonBox[
+             PaneSelectorBox[{False->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "DownPointerOpener"],
+               ImageSizeCache->{10., {3., 7.}}], True->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "DownPointerOpenerHot"],
+               ImageSizeCache->{10., {3., 7.}}]}, Dynamic[
+              System`InformationDump`mouseOver$$]],
+             Alignment->Left,
+             Appearance->{"Default" -> None},
+             
+             ButtonFunction:>FEPrivate`Set[
+              System`InformationDump`open$$, True],
+             Evaluator->Automatic,
+             FrameMargins->{{9, 0}, {0, 0}},
+             ImageMargins->0,
+             ImageSize->Full,
+             Method->"Preemptive"],
+            
+            EventHandlerTag[{
+             "MouseEntered" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, True], 
+              "MouseExited" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, False], 
+              Method -> "Preemptive", PassEventsDown -> Automatic, 
+              PassEventsUp -> True}]],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], "\[SpanFromLeft]"}
+        },
+        AutoDelete->False,
+        FrameStyle->Directive[
+          GrayLevel[0.8], 
+          Thickness[Tiny]],
+        GridBoxAlignment->{"Columns" -> {Left, Right}, "Rows" -> {{Center}}},
+        GridBoxDividers->{
+         "Columns" -> {{None}}, "Rows" -> {False, {True}, False}},
+        GridBoxItemSize->{
+         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+       "Grid"]}, Dynamic[System`InformationDump`open$$],
+      BaselinePosition->Baseline,
+      FrameMargins->0,
+      ImageSize->Automatic],
+     DynamicModuleValues:>{}],
+    BaseStyle->"InformationGridFrame",
+    StripOnInput->False], "InformationGridPlain",
+   StripOnInput->False],
+  InformationData[
+   Association[
+   "ObjectType" -> "Symbol", "Usage" -> 
+    "KPAlgorithm1[seq] uses Algorithm 1 from [Kauers, Pillwein 2010] to check \
+whether the sequence is positive. Returns True if the sequence could be \
+proven to be positive (i.e., every term of the sequence is positive) and \
+False if a negative term was found \n\nseq... a D-finite sequence as an \
+RE[...] object \n\nOptions: \nStrict -> if True, positivity is checked, if \
+False, non-negativity  is checked (default: True). \nEventual -> if True, an \
+index is returned from which on the sequence is guaranteed to be \
+positive/non-negative (default: False) \nVerbose -> displays information \
+during the execution of the algorithm (default: False)", "Documentation" -> 
+    None, "OwnValues" -> None, "UpValues" -> None, "DownValues" -> 
+    Information`InformationValueForm[
+     DownValues, PositiveSequence`KPAlgorithm1, {PositiveSequence`KPAlgorithm1[
+         Pattern[PositiveSequence`Private`seq, 
+          Blank[]], 
+         Pattern[PositiveSequence`Private`opts, 
+          BlankNullSequence[]]] :> 
+       Module[{PositiveSequence`Private`n = 0, PositiveSequence`Private`n0 = 
+          0, PositiveSequence`Private`d = PositiveSequence`Private`seq, 
+          PositiveSequence`Private`r = 
+          PositiveSequence`Private`GetOrder[PositiveSequence`Private`seq], 
+          PositiveSequence`Private`val, 
+          PositiveSequence`Private`cond}, {
+           PositiveSequence`Private`strict, PositiveSequence`Private`ev, 
+            PositiveSequence`Private`verbose} = ReplaceAll[
+            
+            ReplaceAll[{
+             PositiveSequence`Strict, PositiveSequence`Eventual, Verbose}, {
+             PositiveSequence`Private`opts}], 
+            Options[PositiveSequence`KPAlgorithm1]]; While[
+           Or[
+           PositiveSequence`Private`n < PositiveSequence`Private`r, 
+            PositiveSequence`Private`CheckPhiAlgo1[
+             PositiveSequence`Private`d, PositiveSequence`Private`n, 
+              PositiveSequence`Private`strict] === False], 
+           PositiveSequence`Private`val = Part[
+              RISC`GeneratingFunctions`RE2L[PositiveSequence`Private`d, 
+               Part[PositiveSequence`Private`d, 2], {
+               PositiveSequence`Private`n}], 1]; If[
+             If[
+             PositiveSequence`Private`strict, 
+              RootReduce[PositiveSequence`Private`val] > 0, 
+              RootReduce[PositiveSequence`Private`val] >= 0], 
+             If[PositiveSequence`Private`verbose, 
+               Print["n=", PositiveSequence`Private`n, 
+                 ", increase induction hypothesis"]; Null]; 
+             PositiveSequence`Private`n = PositiveSequence`Private`n + 1, 
+             If[PositiveSequence`Private`verbose, 
+               Print["Negative term found, change sequence"]; Null]; If[
+               Not[PositiveSequence`Private`ev], 
+               Return[False]]; 
+             PositiveSequence`Private`n = PositiveSequence`Private`n + 1; 
+             PositiveSequence`Private`n0 = 
+              PositiveSequence`Private`n0 + PositiveSequence`Private`n; 
+             PositiveSequence`Private`d = 
+              RISC`GeneratingFunctions`Shift[
+               PositiveSequence`Private`d, PositiveSequence`Private`n]; 
+             PositiveSequence`Private`n = 0; Null]; Null]; If[
+           Not[PositiveSequence`Private`ev], 
+           PositiveSequence`Private`cond = 
+            If[PositiveSequence`Private`strict, Positive[#]& , 
+              NonNegative[#]& ]; 
+           If[PositiveSequence`Private`verbose, 
+             Print["Check ", PositiveSequence`Private`n, " initial terms"]; 
+             Null]; If[
+             AllTrue[
+              RISC`GeneratingFunctions`RE2L[PositiveSequence`Private`seq, 
+               Part[PositiveSequence`Private`seq, 2], 
+               PositiveSequence`Private`n], PositiveSequence`Private`cond], 
+             Return[True], 
+             Return[False]]; Null]; Return[PositiveSequence`Private`n0]; 
+         Null]}], "SubValues" -> None, "DefaultValues" -> None, "NValues" -> 
+    None, "FormatValues" -> None, 
+    "Options" -> {
+     PositiveSequence`Strict -> True, PositiveSequence`Eventual -> True, 
+      Verbose -> False}, "Attributes" -> {}, "FullName" -> 
+    "PositiveSequence`KPAlgorithm1"], False]]], "Output",
+ CellChangeTimes->{3.860215410478373*^9, 3.8610902210631723`*^9, 
+  3.8610909674104023`*^9, 3.861091279464209*^9, 3.861091420437772*^9, 
+  3.862281131400529*^9, 3.862281428582005*^9, 3.862372431009275*^9, 
+  3.8623724622869577`*^9, 3.862372579983939*^9, 3.8623788621974382`*^9, 
+  3.862453197940106*^9},
+ CellLabel->"Out[31]=",ExpressionUUID->"97618f4e-a9f7-44e7-9aa9-7c57bd9f53e7"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1152., 604.5},
+WindowMargins->{{0, Automatic}, {0, Automatic}},
+TaggingRules->{
+ "WelcomeScreenSettings" -> {"FEStarting" -> False}, "TryRealOnly" -> False},
+FrontEndVersion->"12.1 for Linux x86 (64-bit) (June 19, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"e1cd77d4-96eb-4cc6-a2ed-123e15484747"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 239, 4, 69, "Chapter",ExpressionUUID->"fb4f3eeb-bfc7-4352-87b4-be5b6e46d020"],
+Cell[822, 28, 216, 5, 35, "Text",ExpressionUUID->"d283867d-8447-4b35-9709-12ceec77af07"],
+Cell[CellGroupData[{
+Cell[1063, 37, 169, 3, 54, "Subsection",ExpressionUUID->"ff1596f4-cdca-47e0-920f-d869d4bcd0df"],
+Cell[1235, 42, 613, 11, 35, "Text",ExpressionUUID->"d80ae13e-a83e-4a21-84c5-f6782977eab1"],
+Cell[1851, 55, 567, 13, 71, "Input",ExpressionUUID->"03afb100-6059-4fe4-b7d3-2eff38f62db0"],
+Cell[2421, 70, 480, 13, 97, "Text",ExpressionUUID->"64097998-3e7c-458b-866d-7230e80e732a"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2938, 88, 207, 4, 68, "Section",ExpressionUUID->"cb365a78-8ca9-44e9-a98d-906050da0fb9"],
+Cell[3148, 94, 656, 13, 104, "Text",ExpressionUUID->"32ef003e-8e28-4335-907d-1148fe62f346"],
+Cell[CellGroupData[{
+Cell[3829, 111, 702, 19, 29, "Input",ExpressionUUID->"2d36cad7-b9bf-4270-b1cc-4e87ffd3f027"],
+Cell[4534, 132, 1003, 21, 33, "Output",ExpressionUUID->"20894e14-6ef7-40a9-b4ea-6871b7ca1f69"]
+}, Open  ]],
+Cell[5552, 156, 347, 7, 35, "Text",ExpressionUUID->"65850d0e-3918-4fc9-8fba-5c81c512d931"],
+Cell[CellGroupData[{
+Cell[5924, 167, 511, 13, 29, "Input",ExpressionUUID->"2789cf02-4309-41ed-b7a2-12ae67353e19"],
+Cell[6438, 182, 993, 20, 33, "Output",ExpressionUUID->"4cd4346c-e49a-4089-b40d-23fc9fa72796"]
+}, Open  ]],
+Cell[7446, 205, 325, 7, 35, "Text",ExpressionUUID->"d62d92e1-e924-4752-8cb9-166e0cadd86e"],
+Cell[CellGroupData[{
+Cell[7796, 216, 231, 4, 29, "Input",ExpressionUUID->"f180e27d-a34f-416f-8927-69dfd3ae9a46"],
+Cell[8030, 222, 982, 21, 33, "Output",ExpressionUUID->"a2c73a97-8443-4a3e-8482-5301373f53e8"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9049, 248, 197, 3, 29, "Input",ExpressionUUID->"65c30811-f002-4255-a816-d5a342bc80fb"],
+Cell[9249, 253, 1084, 23, 33, "Output",ExpressionUUID->"5f2882a0-c491-4caa-9d48-e2cacc3fe36d"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[10370, 281, 199, 3, 29, "Input",ExpressionUUID->"efa58b85-7cb5-4910-9497-4f4c0ea77735"],
+Cell[10572, 286, 1037, 23, 33, "Output",ExpressionUUID->"2c7a2afb-8b6a-4634-866e-3fc6b520106c"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11646, 314, 204, 3, 29, "Input",ExpressionUUID->"276460bd-adb8-4cd2-b10d-e15619379a6d"],
+Cell[11853, 319, 655, 10, 33, "Output",ExpressionUUID->"918ed5cf-d763-488b-8073-437446989346"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[12557, 335, 157, 3, 68, "Section",ExpressionUUID->"4bfae1ad-592c-4374-a376-db4bef563dbc"],
+Cell[12717, 340, 455, 8, 58, "Text",ExpressionUUID->"0b6043d8-c587-4dbc-8609-8f46d3dc391d"],
+Cell[CellGroupData[{
+Cell[13197, 352, 306, 5, 29, "Input",ExpressionUUID->"6c9ae9ba-2171-405f-a499-22be885d38d7"],
+Cell[13506, 359, 23065, 490, 296, "Output",ExpressionUUID->"1ab18561-8068-4651-9326-be0dfa33e154"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[36608, 854, 218, 3, 29, "Input",ExpressionUUID->"33df8952-6c7e-41ae-a957-8e5279b59ab3"],
+Cell[36829, 859, 498, 7, 33, "Output",ExpressionUUID->"5806331e-3c89-4cd2-813b-1ec1386d6ef8"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[37364, 871, 296, 6, 29, "Input",ExpressionUUID->"508291a3-f5e6-468f-ac3b-5d9b661d3ee4"],
+Cell[37663, 879, 656, 13, 38, "Message",ExpressionUUID->"b3b692ae-1afa-4ce3-897e-b3db16000d38"],
+Cell[38322, 894, 408, 6, 33, "Output",ExpressionUUID->"a74ba84b-2165-4d24-9565-442eb7b56f14"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[38767, 905, 217, 3, 29, "Input",ExpressionUUID->"6be89d18-249a-4e3b-b44f-0ef2b58dba75"],
+Cell[38987, 910, 410, 6, 33, "Output",ExpressionUUID->"d1859d31-229f-48ac-8a55-e6f7956005a7"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[39434, 921, 255, 5, 29, "Input",ExpressionUUID->"9c966791-d0a9-4540-830c-8f78d1dc4d7b"],
+Cell[39692, 928, 547, 9, 33, "Output",ExpressionUUID->"c7c6eb64-01ad-487f-a466-20055e0367d6"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[40276, 942, 346, 7, 29, "Input",ExpressionUUID->"31be2c7b-df8e-4fb1-825b-db5b31448e71"],
+Cell[40625, 951, 418, 6, 33, "Output",ExpressionUUID->"64db40d9-ffd9-4429-adc9-292deee5780f"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[41080, 962, 400, 8, 29, "Input",ExpressionUUID->"d7c90472-5faa-4814-b2f4-8b7047494805"],
+Cell[41483, 972, 466, 6, 33, "Output",ExpressionUUID->"5a5cfc6c-38b8-40d9-a29e-ea87378fe0ab"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[41998, 984, 162, 3, 68, "Section",ExpressionUUID->"f6b32409-d304-459e-88d2-a2e2495e9172"],
+Cell[42163, 989, 542, 11, 58, "Text",ExpressionUUID->"aa195b6a-da8d-4b02-bc55-aeed9f9349e7"],
+Cell[CellGroupData[{
+Cell[42730, 1004, 1097, 29, 51, "Input",ExpressionUUID->"1a99648d-e97c-4002-8df4-7280c44491dc"],
+Cell[43830, 1035, 483, 7, 33, "Output",ExpressionUUID->"31b974b6-dc27-4610-8b73-fde259d3ee9e"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[44350, 1047, 1112, 29, 51, "Input",ExpressionUUID->"df2803ae-be9e-4a9e-b63a-ebdfd5d1d305"],
+Cell[45465, 1078, 474, 7, 33, "Output",ExpressionUUID->"6f02e1be-965d-456f-9363-f112f238e0c5"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[45976, 1090, 796, 21, 51, "Input",ExpressionUUID->"d601d2e0-3aa8-4249-8396-8a4908702385"],
+Cell[46775, 1113, 383, 5, 33, "Output",ExpressionUUID->"25b59bee-7747-4fc6-9db5-ebdea180f141"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[47195, 1123, 749, 20, 71, "Input",ExpressionUUID->"cadee1a6-02af-40a8-8b35-3857d4dab331"],
+Cell[47947, 1145, 419, 6, 33, "Output",ExpressionUUID->"c89bc318-64f1-4218-aed5-df730d962e25"]
+}, Open  ]],
+Cell[48381, 1154, 277, 6, 35, "Text",ExpressionUUID->"145089ec-6ea8-44de-aed2-e7b3f752fd04"],
+Cell[CellGroupData[{
+Cell[48683, 1164, 1507, 39, 51, "Input",ExpressionUUID->"5ed02b79-29ea-4f38-b8f7-15f3d00ba857"],
+Cell[50193, 1205, 571, 8, 33, "Output",ExpressionUUID->"0940b710-a0d6-4ab1-8515-0d8045f67912"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[50801, 1218, 195, 3, 65, "Subsection",ExpressionUUID->"4c9f750f-5c3f-4259-af3e-71de276ad8ed"],
+Cell[50999, 1223, 785, 21, 81, "Text",ExpressionUUID->"4462a8d4-9e6d-4542-9446-1a6f82cd152f"],
+Cell[CellGroupData[{
+Cell[51809, 1248, 352, 6, 29, "Input",ExpressionUUID->"c248f2d6-75aa-4c02-b268-0d663797a9f3"],
+Cell[52164, 1256, 22194, 475, 296, "Output",ExpressionUUID->"97618f4e-a9f7-44e7-9aa9-7c57bd9f53e7"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
