@@ -163,6 +163,8 @@ IsCFinite::usage=""
 
 Begin["`Private`"]
 
+DegenerateChecked = Association[];
+
 (* ::Section:: *)
 (* Private Helper Functions *)
 
@@ -587,6 +589,33 @@ IsCFinite[seq_] := Module[
   Return[AllTrue[rec, NumberQ]];
 ]
 
+(* given a list of sequences, returns True if all are non-degenerate or zero *)
+(* and returns False otherwise *)
+SequencesNonDegenerate[seqs_] := Module[
+  {coeffs, isDegenerate},
+
+  Do[
+    (* check if sequence zero or already considered *)
+    (* if not, check if degenerate *)
+    If[seq == ZeroSequence[], Continue[]];
+    coeffs = CoefficientList[GetCharpoly[seq, x], x];
+    If[KeyExistsQ[DegenerateChecked, coeffs],
+      (* degeneracy already known *)
+      If[Lookup[DegenerateChecked, {coeffs}][[1]],
+        Return[False, Module],
+        Continue[]
+      ],
+      (* degeneracy not known, compute and save it *)
+      isDegenerate = IsDegenerate[seq];
+      AssociateTo[DegenerateChecked, coeffs->isDegenerate];
+      If[isDegenerate, Return[False, Module]];
+    ];
+
+    , {seq, seqs}
+  ];
+  Return[True];
+]
+
 (* Returns a list of non-degernate (or zero) sequences such that the sequence *)
 (* is an interlacing of those sequences *)
 DecomposeDegenerate[seq_] := Module[
@@ -594,10 +623,9 @@ DecomposeDegenerate[seq_] := Module[
 
   seqs = {seq};
   var = seq[[2, 1]];
-  cond[seq2_] := Return[Not[IsDegenerate[seq2]] || ZeroSequence[] == seq2];
-  While[Not[AllTrue[seqs, cond]],
+  While[Not[SequencesNonDegenerate[seqs]],
     k += 1;
-    seqs = Table[RESubsequence[seq, k*var+v], {v, 0, k-1}]
+    seqs = Table[RESubsequence[seq, k*var+v], {v, 0, k-1}];
   ];
   Return[seqs];
 ]
