@@ -6,7 +6,7 @@ Introduction
 =============
 
 This package can be used to prove positivity of univariate C-finite and holonomic sequences.
-To this end, methods from [GK05]_, [KP10]_, [PN22]_ and [OW14]_ are implemented.  
+To this end, methods from [GK05]_, [KP10]_, [NP22]_ and [OW14]_ are implemented.  
 
 The package is developed by `Philipp Nuspl <mailto:philipp.nuspl@jku.at>`_ and
 published under the GNU General Public License v3.0.
@@ -58,7 +58,7 @@ References
     a P-finite sequence is positive? In: Proceedings of 
     ISSAC'10, pp. 195–202. 2010. 
 
-.. [PN22] Philipp Nuspl, Veronika Pillwein: A comparison of algorithms for proving 
+.. [NP22] Philipp Nuspl, Veronika Pillwein: A comparison of algorithms for proving 
    positivity of linearly recurrent sequences. Submitted. 2022
 
 .. [OW14] Joël Ouaknine and James Worrell. Positivity problems for low-order linear 
